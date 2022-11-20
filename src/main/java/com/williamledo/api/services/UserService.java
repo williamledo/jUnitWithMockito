@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.williamledo.api.domain.User;
 import com.williamledo.api.repositories.UserRepository;
+import com.williamledo.api.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class UserService {
@@ -17,7 +18,7 @@ public class UserService {
 	public User findById(Integer id) {
 
 		Optional<User> obj = repository.findById(id);
-		return obj.orElse(null);
+		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
 		
 	}
 	
