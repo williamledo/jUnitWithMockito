@@ -1,5 +1,8 @@
 package com.williamledo.api.resources;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +30,14 @@ public class UserResource {
 		
 		return ResponseEntity.ok().body(mapper.map(service.findById(id), UserDTO.class));
 		
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<UserDTO>> findAll() {
+		List<User> list = service.findAll();
+		// transformo a lista em uma stream.map para indicar que vai ser feito em todos os índices, depois mudo a classe para UserDTO e transformo de volta em List
+		List<UserDTO> listDTO = list.stream().map(x -> mapper.map(x, UserDTO.class)).collect(Collectors.toList()); 
+		return ResponseEntity.ok().body(listDTO);
 	}
 	
 }
